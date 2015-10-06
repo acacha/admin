@@ -348,5 +348,4 @@ class ModelConfiguration
 	{
 		return route('admin.model.restore', [$this->alias(), $id]);
 	}
-
 }
