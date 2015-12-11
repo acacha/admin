@@ -73,6 +73,12 @@ class ModelConfiguration
 	 */
 	protected $editable = null;
 
+	/**
+	 * Is Model Content editable?
+	 * @var boolean|Callable
+	 */
+	protected $editableContent = null;
+
     /**
      * Is Model deletable (soft delete)?
      * @var boolean|Callable
@@ -367,6 +373,28 @@ class ModelConfiguration
             return $this->checkPermissionAndPolicies($id, 'edit');
         }
 		$this->editable = $editable;
+		return $this;
+	}
+
+    /**
+     * Is the content editable?
+     * @param null $editableContent
+     * @param null|integer|Eloquent $id
+     * @return $this|bool|Callable|mixed
+     */
+    public function editableContent($editableContent = null, $id = null){
+
+		if ($editableContent == null) {
+			if (is_callable($this->editableContent))
+			{
+				return call_user_func($this->editableContent);
+			}
+			if ($this->editableContent != null) {
+				return $this->editableContent;
+			}
+            return $this->checkPermissionAndPolicies($id, 'editContent');
+        }
+		$this->$editableContent = $editableContent;
 		return $this;
 	}
 
